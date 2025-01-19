@@ -1,0 +1,37 @@
+{
+    "hash": "000008d50d323bff341bb913583691f32afbfb135e967361236fa91d53424069",
+    "index": 100,
+    "timestamp": 1729424672.9284103,
+    "noonce": 3573233,
+    "previousHash": "000003ecf4a48114944638b855028a2421581dc51c522be37e51832785dee29e",
+    "transactions": [
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729424672.4059346,
+            "hash": "47ddbd0da81e981644a083a024978097cd8d116308dc366630406927674b2d20"
+        },
+        {
+            "inputs": [
+                {
+                    "referencedHash": "47ddbd0da81e981644a083a024978097cd8d116308dc366630406927674b2d20",
+                    "referencedOutputIndex": 0,
+                    "signature": "73629eda3a798fcc1d27c2a1edddd2bf1821ebad3aa803b6e5d2e13c30706e5bbca934d5ab2070e7b28159cee2d69a93c4ea8a15f378c4fbc604b4cd6cf1b65324587c5a3e66ef74f69fa6fb827eb6d1262c0502a2748aa00b0ad364de7e0d2660c39d268342ea893ac5b1ff8afedf1bc1c4c26ef5fa1d48c8a63ab59d4a20dd"
+                }
+            ],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729424672.4059346,
+            "hash": "38c9b4c77725d01572bfed10c3adfb80eecf16c31c21050ae96089b7c0711011"
+        }
+    ]
+}

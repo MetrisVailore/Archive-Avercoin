@@ -1,0 +1,37 @@
+{
+    "hash": "0000049dba0685c478104ad08000c1fe8506dd773d4e47c48942a5621add7cd4",
+    "index": 118,
+    "timestamp": 1729430042.4838655,
+    "noonce": 41906,
+    "previousHash": "000002c7034e8e320fe5744174c329a72221bfa603e1c4801c296ff4d6518282",
+    "transactions": [
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729430042.0982347,
+            "hash": "770c500ea238a3c570c03608879d9eece74151d15c0bedea84ada031d6de6c87"
+        },
+        {
+            "inputs": [
+                {
+                    "referencedHash": "770c500ea238a3c570c03608879d9eece74151d15c0bedea84ada031d6de6c87",
+                    "referencedOutputIndex": 0,
+                    "signature": "27190919f263055d035bfbbc4306ed2e419ca9e1eefc55f8ce32601c24d2f215a950dad3e0e5bca7ff2f36248ea9572bbbe51bb7499336b4c14005609e1a4a184db3f4ded4819de471eaf1b37bf1b85128523dbe701771c0b007320f8439ca50c870fc22a7536430572dcf83bccd0121014d19129107afa2e80df00334da22cf"
+                }
+            ],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729430042.0982347,
+            "hash": "3bafc2d5eea618f0671251dc40eafd93843368e1ac020c6b9889efa2351a6bc7"
+        }
+    ]
+}

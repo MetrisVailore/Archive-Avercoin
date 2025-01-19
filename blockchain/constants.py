@@ -1,0 +1,14 @@
+MAX_SUPPLY = 250000000  # 250.000.000
+VERSION = 1
+MAX_BLOCK_SIZE_HEX = 4096 * 1024  # not working
+MAX_TRANSACTIONS_PER_BLOCK = 5
+MIN_TRANSACTION_AMOUNT = 0.1  # SPC
+COINBASE_REWARD = 250  # SPC
+COINBASE_REWARD_AFTER = 0.5 # reward after max_block_count blocks
+BLOCK_TIME = 60  # 60 seconds
+MIN_MINING_DIFFICULTY = 1  # mining difficulty
+MAX_MINING_DIFFICULTY = 100  #this is not needed, but maybe in the future
+MAX_BLOCK_COUNT = int(MAX_SUPPLY / COINBASE_REWARD)  # max block count with the full reward
+MAX_CHANGING_DIFF = 5  # multiplier and max number to change the diff
+MAX_CHANGING_INT = 100  # max time that can rewrite the difficulty
+CHANGING_DIFF_TIME = 180  # 3 hours

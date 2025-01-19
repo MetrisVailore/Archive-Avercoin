@@ -1,0 +1,37 @@
+{
+    "hash": "000006bbd57dab2301d5bb949cec6648d2594fe9766d36cfd5d5309ab2f9534b",
+    "index": 119,
+    "timestamp": 1729430123.832507,
+    "noonce": 222728,
+    "previousHash": "0000049dba0685c478104ad08000c1fe8506dd773d4e47c48942a5621add7cd4",
+    "transactions": [
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729430123.424849,
+            "hash": "f2b8b21d646be7b7b744a0053e1694e942b35dc5983b5bc5ab820a333138b571"
+        },
+        {
+            "inputs": [
+                {
+                    "referencedHash": "f2b8b21d646be7b7b744a0053e1694e942b35dc5983b5bc5ab820a333138b571",
+                    "referencedOutputIndex": 0,
+                    "signature": "097c327aaa2280d33d7be4e15ce3885b441eff0324e4683469c15329f290848b8463ab497d8fc4cd5d276913cbac619af8b34af0dbe62cda596f885f673fb7e7cf62f37aabdc7e59c7ac8c626ed82a9ff1c60c21de3a37716efb3f9274c26adc42ec18c2e0f3ba47acbe601a9a69546d0d128c4544e0b2d7c1ae8af7bf17a681"
+                }
+            ],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729430123.4258475,
+            "hash": "a15d96f79c1d7175c7d5197133a6d9187d3ae3fe988665329b6ef728b9d4cab5"
+        }
+    ]
+}

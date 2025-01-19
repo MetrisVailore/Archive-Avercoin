@@ -1,0 +1,37 @@
+{
+    "hash": "00000d4f8698dbc7caf2fa43ecfdc788785cd11aa7ffcaac9b357eaf9e7f918c",
+    "index": 104,
+    "timestamp": 1729424785.3805835,
+    "noonce": 427442,
+    "previousHash": "00000d3a796ad31ddfdc9b1bb3c01d17b06236a6ff55b625c84682a2daa325e7",
+    "transactions": [
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729424784.850913,
+            "hash": "fcabc3f99e26bec349006ea02dfd26f558af25b4d9f599b7c9063347c3615ad7"
+        },
+        {
+            "inputs": [
+                {
+                    "referencedHash": "fcabc3f99e26bec349006ea02dfd26f558af25b4d9f599b7c9063347c3615ad7",
+                    "referencedOutputIndex": 0,
+                    "signature": "49769ff2dc2a9d29324ef9c25c7b89878b6f17207b8dd38bc6aba37597f9972869ad1ca9006735c9cf541982d9a905d87ea18a9873733ec3173a6ae0a0ba4c81757896c2496d1029ac515262b6b0fc6d5e13a06d4dd40d1864f84b19d98f3f5e48ae3b22dc22b1780ced888390f5fe7ce273119dd503d9622da61957cc4a7f5a"
+                }
+            ],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729424784.850913,
+            "hash": "8faa3ec0f16bc2efa772b4af0df334c0363b64a5614e3dd3dc834e4a5bcb9e71"
+        }
+    ]
+}

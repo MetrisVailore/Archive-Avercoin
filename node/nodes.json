@@ -1,0 +1,1 @@
+{"Nodes": [{"name": "AverCoin Node", "active": true, "url": "127.0.0.1", "version": "1"}, {"name": "AverCoin Node2", "active": false, "url": "127.0.0.1", "version": 1}], "lastMessages": [{"url": "127.0.0.1", "message": "test", "timestamp": 1725101386.309216}]}

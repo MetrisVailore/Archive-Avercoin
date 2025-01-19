@@ -1,0 +1,37 @@
+{
+    "hash": "00000ee1f35f544f7a90e3cc0df34813ac8299f5cb53a17b6d2e85e0512dc717",
+    "index": 112,
+    "timestamp": 1729429794.3093848,
+    "noonce": 1175204,
+    "previousHash": "00000ed3c4cfbd356152a0f179a9beaa0d150a75a76c540acd41fccb90b75676",
+    "transactions": [
+        {
+            "inputs": [],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729429793.9178321,
+            "hash": "00e23c6841552d67474b8c4321c744ce3e40c4f74d7564e0bf03b2dd039eb265"
+        },
+        {
+            "inputs": [
+                {
+                    "referencedHash": "00e23c6841552d67474b8c4321c744ce3e40c4f74d7564e0bf03b2dd039eb265",
+                    "referencedOutputIndex": 0,
+                    "signature": "1d6da9f9e246d4275a6e97d8c7d00b2991855f9ad9307d1bd030cc867186ed25e31f794338ab25e9b628401601adfb21853610cee5fe9880535e718ce9286126213f06d6bc45ab435f3f600b2f33c986da51f796a1d9472d45129503db170d9341ada02aa45c6549821524327dcfbe9ef1277f4d118606783eaaf5f3a9fc618d"
+                }
+            ],
+            "outputs": [
+                {
+                    "amount": 250,
+                    "address": "30819f300d06092a864886f70d010101050003818d003081890281810098b0736436c0b2ba48f06e8c527a3d55030548376b3f209c004bd3d4829b18f8941db5d1e4f3dd0177a3b65c3fd8fc495d6d348c565015f6a696cab53b7f5e0c0c516b63ec889116de08572a6d780de0b47720fbe44d65aae412f04b3cd33109e1a1bf52f14635668c9a89d8480f97e6c5c3878a35955d144d65cff07ec640790203010001"
+                }
+            ],
+            "timestamp": 1729429793.9178321,
+            "hash": "af424330b335b6e623d673e123ff8c9643302f2ad9b03236d41bbb45c04d4d83"
+        }
+    ]
+}
