@@ -175,7 +175,7 @@ def get_update_diff(previous_block_diff: int, previous_blocks: Dict[str, block.B
                 range_timestamps += nonce_time
             previous_block_timestamp = timestamp
     
-    average_block_mine = range_timestamps / range_count if range_count else 1
+    average_block_mine = range_timestamps / range_count if range_count else BLOCK_TIME
     minus_diff = average_block_mine / BLOCK_TIME
     return int(MIN_MINING_DIFFICULTY + (previous_block_diff * MAX_CHANGING_DIFF) - (MAX_CHANGING_DIFF * minus_diff))
 
@@ -197,7 +197,7 @@ def update_difficulty(current_block: block.Block, previous_blocks: Dict[str, blo
             previous_block_timestamp = timestamp
     
     if current_block.index % CHANGING_DIFF_TIME == 0:
-        average_block_mine = range_timestamps / range_count if range_count else 1
+        average_block_mine = range_timestamps / range_count if range_count else BLOCK_TIME
         minus_diff = average_block_mine / BLOCK_TIME
         return int(MIN_MINING_DIFFICULTY + (previous_block_diff * MAX_CHANGING_DIFF) - (MAX_CHANGING_DIFF * minus_diff))
 
