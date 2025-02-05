@@ -380,13 +380,10 @@ class Chain:
         return None
 
     def getTransaction(self, transaction_hash: str):
-        transactions_data = []
-        for transaction_block in self.blocks:
-            transactions_data.append(block.toJSON(self.blocks[transaction_block]))
-        for objects in transactions_data:
-            for data in json.loads(objects)["transactions"]:
-                if str(data["hash"]) == str(transaction_hash):
-                    return json.dumps(data, indent=2)
+        for transaction_block in self.blocks.values():
+        for data in json.loads(transaction_block.toJSON())["transactions"]:
+            if data["hash"] == transaction_hash:
+                return json.dumps(data, indent=2)
 
 
 def verifyNextBlock(
