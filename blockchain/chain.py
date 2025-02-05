@@ -387,9 +387,9 @@ class Chain:
 
     def getTransaction(self, transaction_hash: str):
         for transaction_block in self.blocks.values():
-        for data in json.loads(transaction_block.toJSON())["transactions"]:
-            if data["hash"] == transaction_hash:
-                return json.dumps(data, indent=2)
+            for data in json.loads(transaction_block.toJSON())["transactions"]:
+                if data["hash"] == transaction_hash:
+                    return json.dumps(data, indent=2)
 
 
 def verifyNextBlock(
