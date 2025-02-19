@@ -97,7 +97,15 @@ async def get_difficulty(request: Request, block_hash: str):
         print(err)
         return {'ok': False, 'result': f"Block is not in the chain"}
 
-
+@app.get("/eth_blockNumber")
+async def eth_block_number(request: Request):
+    try:
+        Chain = Database.import_blocks()
+        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": hex(len(Chain.blocks)-1)})
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve block number"})
+        
 @app.get("/eth_getTransactionByHash")
 async def eth_get_transaction_by_hash(request: Request, tx_hash: str):
     try:
