@@ -1,7 +1,6 @@
 from asyncpg import UniqueViolationError
 from fastapi import FastAPI, Body, Query
 from fastapi.responses import RedirectResponse
-from fastapi.responses import JSONResponse
 
 from asyncio import gather
 from httpx import TimeoutException
@@ -39,97 +38,102 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Geth-like RPC method: eth_blockNumber
-@app.get("/eth_blockNumber")
-async def eth_block_number(request: Request):
-    try:
-        # Use Database to retrieve the latest block number instead of Web3
-        latest_block = await Database.get_latest_block_number()
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": hex(latest_block)})
-    except Exception as e:
-        print(e)
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve block number"})
 
-# Geth-like RPC method: eth_getBlockByNumber
-@app.get("/eth_getBlockByNumber")
-async def eth_get_block_by_number(request: Request, block_number: str, full_transactions: bool = False):
-    try:
-        block_info = await Database.get_block_by_number(int(block_number, 16), full_transactions)
-        return JSONResponse(content={
-            "jsonrpc": "2.0", "id": 1, "result": block_info
-        })
-    except Exception as e:
-        print(e)
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve block by number"})
+async def propagate(path: str, args: dict, ignore_url=None, nodes: list = None):
+    global self_url
+    self_node = NodeInterface(self_url or '')
+    ignore_node = NodeInterface(ignore_url or '')
+    aws = []
+    for node_url in nodes or NodesManager.get_propagate_nodes():
+        node_interface = NodeInterface(node_url)
+        if node_interface.base_url == self_node.base_url or node_interface.base_url == ignore_node.base_url:
+            continue
+        aws.append(node_interface.request(path, args, self_node.url))
+    for response in await gather(*aws, return_exceptions=True):
+        print('node response: ', response)
 
-# Geth-like RPC method: eth_getBlockByHash
-@app.get("/eth_getBlockByHash")
-async def eth_get_block_by_hash(request: Request, block_hash: str, full_transactions: bool = False):
-    try:
-        block_info = await Database.get_block_by_hash(block_hash, full_transactions)
-        return JSONResponse(content={
-            "jsonrpc": "2.0", "id": 1, "result": block_info
-        })
-    except Exception as e:
-        print(e)
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve block by hash"})
 
-# Geth-like RPC method: eth_getTransactionByHash
-@app.get("/eth_getTransactionByHash")
-async def eth_get_transaction_by_hash(request: Request, tx_hash: str):
-    try:
-        # Retrieve transaction from the database
-        tx = await Database.get_transaction(tx_hash)
-        if tx is None:
-            return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": None})
-        return JSONResponse(content={
-            "jsonrpc": "2.0", "id": 1, "result": tx
-        })
-    except Exception as e:
-        print(e)
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve transaction"})
+@app.exception_handler(Exception)
+async def exception_handler(request: Request, e: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"ok": False, "error": f"Uncaught {type(e).__name__} exception"},
+    )
 
-# Geth-like RPC method: eth_getTransactionReceipt
-@app.get("/eth_getTransactionReceipt")
-async def eth_get_transaction_receipt(request: Request, tx_hash: str):
-    try:
-        # Retrieve transaction receipt from the database
-        receipt = await Database.get_transaction_receipt(tx_hash)
-        if receipt is None:
-            return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": None})
-        return JSONResponse(content={
-            "jsonrpc": "2.0", "id": 1, "result": receipt
-        })
-    except Exception as e:
-        print(e)
-        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve transaction receipt"})
 
-# Example of additional block and transaction management via the database (similar to Ethereum-like RPC)
-@app.get("/get_block")
+@app.get("/add_node")
+@limiter.limit("10/minute")
+async def add_node(request: Request, url: str, background_tasks: BackgroundTasks):
+    nodes = NodesManager.get_nodes()
+    url = url.strip('/')
+    if url == self_url:
+        return {'ok': False, 'error': 'Recursively adding node'}
+    if url in nodes:
+        return {'ok': False, 'error': 'Node already present'}
+    else:
+        try:
+            assert await NodesManager.is_node_working(url)
+            background_tasks.add_task(propagate, 'add_node', {'url': url}, url)
+            NodesManager.add_node(url)
+            return {'ok': True, 'result': 'Node added'}
+        except Exception as e:
+            print(e)
+            return {'ok': False, 'error': 'Could not add node'}
+
+
+@app.get("/get_nodes")
+async def get_nodes():
+    return {'ok': True, 'result': NodesManager.get_recent_nodes()[:100]}
+
+
+@app.get("/get_difficulty")
+@limiter.limit("2/second")
+async def get_difficulty(request: Request, block_hash: str):
+    try:
+        diff = Database.get_difficulty(block_hash)
+        return {'ok': True, 'result': f"{diff}"}
+    except Exception as err:
+        print(err)
+        return {'ok': False, 'result': f"Block is not in the chain"}
+
+
+@app.get("/add_block")
 @limiter.limit("30/minute")
-async def get_block(request: Request, block_hash: str):
+async def add_new_block(request: Request, new_block: str):
     try:
-        block_return = await Database.get_block(block_hash)
-        if block_return is not None:
-            return {'ok': True, 'result': block_return}
-        else:
-            return {'ok': False, 'error': 'Block not found'}
-    except:
-        return {'ok': False, 'error': 'Block not found'}
+        add_block_try = Database.add_block(block.createFromJSON(new_block))
+        if add_block_try:
+            return {'ok': True, 'result': "Block added"}
+        elif add_block_try is False:
+            return {'ok': False, 'result': 'Transaction not created'}
+    except Exception as err:
+        print(err)
+        return {'ok': False, 'result': f'Block not added {err}'}
+    return {'ok': True, 'result': "Block added"}
+
+
+@app.get("/add_transaction")
+@limiter.limit("2/second")
+async def add_transaction(request: Request, pending_transaction: str):
+    try:
+        tx = Database.add_pending_transactions(pending_transaction_file, pending_transaction)
+    except Exception as err:
+        print(err)
+        return {'ok': False, 'result': 'Transaction not created'}
+    if tx[0] is False:
+        return {'ok': False, 'result': 'Transaction not created'}
+    if tx[0] is True:
+        return {'ok': True, 'result': "Transaction added to pending transactions"}
+
 
 @app.get("/get_transaction")
 @limiter.limit("2/second")
 async def get_transaction(request: Request, tx_hash: str):
-    try:
-        tx = await Database.get_transaction(tx_hash)
-        if tx is None:
-            return {'ok': False, 'error': 'Transaction not found'}
-        return {'ok': True, 'result': tx}
-    except Exception as err:
-        print(err)
+    tx = await Database.get_transaction(tx_hash)
+    if tx is None:
         return {'ok': False, 'error': 'Transaction not found'}
+    return {'ok': True, 'result': tx}
 
-# Continue with other methods for blocks, transactions, etc., as per your original needs
 
 @app.get("/get_pending_transactions")
 async def get_blocks(request: Request):
