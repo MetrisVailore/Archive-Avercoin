@@ -1,5 +1,6 @@
 use chrono::prelude::*;
 use serde::{Serialize, Deserialize};
+use sha2::{Sha256, Digest};
 use std::collections::HashMap;
 
 // Transaction Struct (simplified)
@@ -13,6 +14,21 @@ pub struct Transaction {
 impl Transaction {
     pub fn new(timestamp: f64, output_addresses: Vec<String>, output_amounts: Vec<u64>) -> Self {
         Transaction { timestamp, output_addresses, output_amounts }
+    }
+
+    // Create a deterministic hash for the transaction
+    pub fn hash(&self) -> String {
+        let tx_data = format!(
+            "{}:{}:{}",
+            self.timestamp,
+            self.output_addresses.join(","),
+            self.output_amounts.iter().map(|amt| amt.to_string()).collect::<Vec<String>>().join(",")
+        );
+
+        let mut hasher = Sha256::new();
+        hasher.update(tx_data.as_bytes());
+        let result = hasher.finalize();
+        hex::encode(result)
     }
 }
 
@@ -29,12 +45,12 @@ pub struct Block {
 }
 
 impl Block {
-    // Calculate block hash (same as in Python, but using Rust's SHA256 library)
+    // Calculate block hash
     pub fn hash_block(&self) -> String {
         let combined_transactions: String = self.transactions.iter()
-            .map(|tx| format!("{:?}", tx)) // Stringify transactions
+            .map(|tx| tx.hash()) // Use the hash of each transaction
             .collect();
-        
+
         let block_data = format!(
             "{}{}{}{}{}{}",
             self.index,
@@ -45,15 +61,13 @@ impl Block {
             self.parent_blocks.join(",")
         );
 
-        // Use Rust's SHA256 to hash the block data
-        use sha2::{Sha256, Digest};
         let mut hasher = Sha256::new();
         hasher.update(block_data.as_bytes());
         let result = hasher.finalize();
         hex::encode(result)
     }
 
-    // Create a new Block (with or without parent blocks)
+    // Create a new Block
     pub fn new(index: usize, timestamp: f64, transactions: Vec<Transaction>, noonce: usize, previous_hash: String, parent_blocks: Vec<String>) -> Self {
         let block = Block {
             index,
@@ -62,13 +76,13 @@ impl Block {
             noonce,
             previous_hash,
             parent_blocks,
-            hash: String::new(), // Initially empty, will be computed
+            hash: String::new(),
         };
         let hash = block.hash_block();
         Block { hash, ..block }
     }
 
-    // To JSON (using Serde for serialization)
+    // To JSON (serialization)
     pub fn to_json(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
@@ -79,18 +93,18 @@ impl Block {
     }
 }
 
-// Genesis Block (first block in the chain)
+// Genesis Block
 pub fn genesis_block() -> Block {
     let genesis_time = 1725615747.2513995;
     let genesis_address = String::from("30820122300d06092a864886f70d01010105000382010f003082010a0282010100b0bb73e00ebdc83794c8b926253e6f72a45b8ef487ffe565941fcd74384884a95939fc0e1213db0dfbab83dcd3902af5b6c7391a453324b956aa5be8d58cf2d5b9e9667429ee40abe8a0d0ad831939454b61db63281f2d42665dccc0088f67291926dfdb321efd7b77ad5e571b16acc931aa31046423ba16ae5c1d3d613dcf2331041d90d0f39e0fd85f30238925d00198a765e0f6c721aa7372bc5cb648156dbaf98bfe16aab9eba12545e05253fb9aab932da75067dc432ac9228b42252c1fb4d5851a5108afa063c4b4f1d1795074e66a2c92261a3d976314134bbd3ba7ae0eb1938a936381239d6f6127b846fc42c99a9fcf36984a83a924ed0522ea24830203010001");
-    
+
     let genesis_transaction = Transaction::new(genesis_time, vec![genesis_address], vec![100]);
 
     Block::new(
-        0, 
-        genesis_time, 
+        0,
+        genesis_time,
         vec![genesis_transaction],
-        0, 
+        0,
         String::from("AverCoin is a future, and i want to be in it."),
         vec![] // Genesis block has no parents
     )
