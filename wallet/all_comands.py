@@ -1,5 +1,5 @@
 import requests, json
-import sys
+import sys, os
 
 # Add the path to the parent directory of 'blockchain'
 sys.path.append(os.path.abspath('../blockchain'))
