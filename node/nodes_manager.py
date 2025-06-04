@@ -7,8 +7,14 @@ import httpx
 import pickledb
 import json_helper
 
-from AverCoin.blockchain.constants import MAX_BLOCK_SIZE_HEX
-from AverCoin.node.helpers import timestamp
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+
+from constants import MAX_BLOCK_SIZE_HEX
+from helpers import timestamp
 
 ACTIVE_NODES_DELTA = 60 * 60 * 24 * 7  # 7 days
 INACTIVE_NODES_DELTA = 60 * 60 * 24 * 90  # 3 months
