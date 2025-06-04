@@ -1,12 +1,17 @@
 import json
 from typing import Dict, Tuple, List, cast, Set
 
-from AverCoin.blockchain.constants import MIN_TRANSACTION_AMOUNT, COINBASE_REWARD
-from AverCoin.blockchain.constants import *
-import AverCoin.blockchain.block as block
-from AverCoin.blockchain.mine import hasProofOfWork, checkProofOfWork
-import AverCoin.blockchain.transaction as transaction
-import AverCoin.blockchain.block as chain_helper
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+from constants import MIN_TRANSACTION_AMOUNT, COINBASE_REWARD
+from constants import *
+import block as block
+from mine import hasProofOfWork, checkProofOfWork
+import transaction as transaction
+import block as chain_helper
 
 
 class ChainException(Exception):
