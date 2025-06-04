@@ -8,7 +8,7 @@ import sys
 # Add the path to the parent directory of 'blockchain'
 sys.path.append(os.path.abspath('../blockchain'))
 sys.path.append(os.path.abspath('../node'))
-from blockchain import chain, transaction, mine
+import chain, transaction, mine
 import block as chain_helper
 from constants import *
 from Cryptodome.PublicKey import RSA
