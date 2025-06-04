@@ -1,9 +1,14 @@
 import time
 from typing import List
 
-from AverCoin.blockchain.block import Block, hashBlock
-from AverCoin.blockchain.transaction import Transaction
-from AverCoin.blockchain.constants import MIN_MINING_DIFFICULTY, CHANGING_DIFF_TIME
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+from block import Block, hashBlock
+from transaction import Transaction
+from constants import MIN_MINING_DIFFICULTY, CHANGING_DIFF_TIME
 
 
 def checkProofOfWork(hash: str) -> int:
