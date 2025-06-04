@@ -9,9 +9,9 @@ import AverCoin.blockchain.block as chain_helper
 import datetime
 import ctypes
 
-kernel32 = ctypes.windll.kernel32
-
-kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
+if os.name == 'nt':
+    kernel32 = ctypes.windll.kernel32
+    kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 
 host_ip = "127.0.0.1"
 host_port = "3006"
