@@ -7,6 +7,11 @@ from AverCoin.blockchain.constants import *
 from Cryptodome.PublicKey import RSA
 import AverCoin.blockchain.block as chain_helper
 import datetime
+import ctypes
+
+kernel32 = ctypes.windll.kernel32
+
+kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 
 host_ip = "127.0.0.1"
 host_port = "3006"
@@ -15,7 +20,7 @@ host_port = "3006"
 # address = private1.publickey().exportKey('DER').hex()
 private_key = input("Введите свой ключ\n")
 private1 = RSA.importKey(bytes.fromhex(private_key))
-address = input("Введите свой адресс\n")
+address = private1.publickey().exportKey('DER').hex()
 
 print(f"Подключена нода {host_ip}:{host_port} ")
 
