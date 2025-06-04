@@ -1,7 +1,12 @@
 import time
 import json
 from typing import List, cast
-from AverCoin.blockchain.transaction import Transaction, createTransaction, createFromDictionary
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+from transaction import Transaction, createTransaction, createFromDictionary
 
 from Cryptodome.Hash import SHA256
 
