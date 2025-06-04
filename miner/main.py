@@ -1,6 +1,11 @@
 import requests
 import json
 import time
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
 from AverCoin.blockchain import transaction, mine, chain, block
 from AverCoin.blockchain.chain import get_update_diff
 from AverCoin.blockchain.constants import *
