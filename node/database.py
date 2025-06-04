@@ -9,8 +9,8 @@ import sys
 sys.path.append(os.path.abspath('../blockchain'))
 sys.path.append(os.path.abspath('../node'))
 from blockchain import chain, transaction, mine
-import blockchain.block as chain_helper
-from blockchain.constants import *
+import block as chain_helper
+from constants import *
 from Cryptodome.PublicKey import RSA
 import time
 import ast
