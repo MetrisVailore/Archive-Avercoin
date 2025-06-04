@@ -15,6 +15,12 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+
 from AverCoin.node.database import Database
 from AverCoin.node.nodes_manager import NodesManager, NodeInterface
 import AverCoin.blockchain.block as block
