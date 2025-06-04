@@ -21,9 +21,9 @@ import sys
 sys.path.append(os.path.abspath('../blockchain'))
 sys.path.append(os.path.abspath('../node'))
 
-from AverCoin.node.database import Database
-from AverCoin.node.nodes_manager import NodesManager, NodeInterface
-import AverCoin.blockchain.block as block
+from database import Database
+from nodes_manager import NodesManager, NodeInterface
+import block as block
 from settings import *
 
 limiter = Limiter(key_func=get_remote_address)
