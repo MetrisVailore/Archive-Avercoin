@@ -1,11 +1,11 @@
 import requests
 import json
 import time
-import sys, os
+import sys
+import os
 
 # Add the path to the parent directory of 'blockchain'
 sys.path.append(os.path.abspath('../blockchain'))
-sys.path.append(os.path.abspath('../node'))
 import transaction, mine, chain, block
 from chain import get_update_diff
 from constants import *
@@ -26,6 +26,7 @@ host_port = "3006"
 private_key = input("Введите свой ключ\n")
 private1 = RSA.importKey(bytes.fromhex(private_key))
 address = private1.publickey().exportKey('DER').hex()
+# address = input("Введите свой адресс\n")
 
 print(f"Подключена нода {host_ip}:{host_port} ")
 
@@ -167,7 +168,8 @@ if __name__ == '__main__':
             privateKeys=[private1]
         )
 
-        all_transactions = []
+        all_transactions = [tx1]
+        # print(all_transactions)
 
         last_hash = get_last_hash(host_ip, host_port)
         diff = get_diff(host_ip, host_port, last_hash)
@@ -177,10 +179,10 @@ if __name__ == '__main__':
 
         # pending_transactions = correctSingleQuoteJSON(pending_transactions)
 
-        all_transactions.append(tx1)
         if len(str(pending_transactions)) == 0 or pending_transaction_verify is False:
             all_transactions.append(tx2)
-        if pending_transaction_verify:
+        if pending_transaction_verify and pending_transactions:
+            print(pending_transactions)
             all_transactions.append(pending_transactions)
             '''
             correctJson = correctSingleQuoteJSON(pending_transactions)
