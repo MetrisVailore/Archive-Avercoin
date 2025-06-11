@@ -12,6 +12,7 @@ accounts = {
 }
 
 # Simulated blockchain data
+chain_id = 3007  # Example chain ID for a local test network
 blocks = []
 current_block_number = 0
 
@@ -113,6 +114,13 @@ def rpc():
             "jsonrpc": "2.0",
             "id": data.get('id'),
             "result": hex(20000000000)  # 20 Gwei in Wei
+        }
+    elif method == 'eth_chainId':
+        # Define the chain ID for your simulated blockchain
+        response = {
+            "jsonrpc": "2.0",
+            "id": data.get('id'),
+            "result": hex(chain_id)  # Return the chain ID in hex format
         }
     else:
         response = {
