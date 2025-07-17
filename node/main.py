@@ -1,6 +1,7 @@
 from asyncpg import UniqueViolationError
 from fastapi import FastAPI, Body, Query
 from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse
 
 from asyncio import gather
 from httpx import TimeoutException
@@ -14,9 +15,15 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
-from AverCoin.node.database import Database
-from AverCoin.node.nodes_manager import NodesManager, NodeInterface
-import AverCoin.blockchain.block as block
+import sys, os
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+
+from database import Database
+from nodes_manager import NodesManager, NodeInterface
+import block as block
 from settings import *
 
 limiter = Limiter(key_func=get_remote_address)
@@ -96,6 +103,28 @@ async def get_difficulty(request: Request, block_hash: str):
         print(err)
         return {'ok': False, 'result': f"Block is not in the chain"}
 
+@app.get("/eth_blockNumber")
+async def eth_block_number(request: Request):
+    try:
+        Chain = Database.import_blocks()
+        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": hex(len(Chain.blocks)-1)})
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve block number"})
+        
+@app.get("/eth_getTransactionByHash")
+async def eth_get_transaction_by_hash(request: Request, tx_hash: str):
+    try:
+        # Retrieve transaction from the database
+        tx = await Database.get_transaction(tx_hash)
+        if tx is None:
+            return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "result": None})
+        return JSONResponse(content={
+            "jsonrpc": "2.0", "id": 1, "result": tx
+        })
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"jsonrpc": "2.0", "id": 1, "error": "Could not retrieve transaction"})
 
 @app.get("/add_block")
 @limiter.limit("30/minute")

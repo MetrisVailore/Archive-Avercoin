@@ -3,13 +3,18 @@ import json
 import os, os.path
 
 import json_helper
-from AverCoin.blockchain import chain, transaction, mine
-import AverCoin.blockchain.block as chain_helper
-from AverCoin.blockchain.constants import *
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+import chain, transaction, mine
+import block as chain_helper
+from constants import *
 from Cryptodome.PublicKey import RSA
 import time
 import ast
-import AverCoin
+# import AverCoin
 import asyncio
 from settings import pending_transaction_file
 

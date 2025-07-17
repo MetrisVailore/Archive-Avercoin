@@ -1,8 +1,13 @@
 import json
 import os
 import time
-from AverCoin.blockchain.transaction import *
-from AverCoin.blockchain.block import createFromJSON
+import sys
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+from transaction import *
+from block import createFromJSON
 
 
 def save_new_json(data, file):

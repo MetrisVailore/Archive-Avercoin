@@ -1,12 +1,17 @@
 import json
 from typing import Dict, Tuple, List, cast, Set
 
-from AverCoin.blockchain.constants import MIN_TRANSACTION_AMOUNT, COINBASE_REWARD
-from AverCoin.blockchain.constants import *
-import AverCoin.blockchain.block as block
-from AverCoin.blockchain.mine import hasProofOfWork, checkProofOfWork
-import AverCoin.blockchain.transaction as transaction
-import AverCoin.blockchain.block as chain_helper
+import sys, os
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+from constants import MIN_TRANSACTION_AMOUNT, COINBASE_REWARD
+from constants import *
+import block as block
+from mine import hasProofOfWork, checkProofOfWork
+import transaction as transaction
+import block as chain_helper
 
 
 class ChainException(Exception):
@@ -90,7 +95,7 @@ class UTXOManager:
 
         if not isCoinbase and inputAmounts > outputAmounts:
             return False, "Input amounts to do not match output amounts"
-        elif inputAmounts == outputAmounts:
+        elif inputAmounts < outputAmounts:
             return False, "Avoid smaller amount than output"
 
         return True, ""
@@ -163,38 +168,44 @@ class UTXOManager:
 
 def get_update_diff(previous_block_diff: int, previous_blocks: Dict[str, block.Block]) -> int:
     range_timestamps = 0
-    range_count = 0
     previous_block_timestamp = 0
-    for cblock in previous_blocks:
-        block_data = json.loads(chain_helper.toJSON(previous_blocks[cblock]))
-        if block_data["timestamp"] is not None and block_data["index"] != 0:
-            nonce_time = block_data["timestamp"] - previous_block_timestamp
+    range_count = len(previous_blocks)
+    
+    for cblock in previous_blocks.values():
+        block_data = json.loads(chain_helper.toJSON(cblock))
+        timestamp = block_data.get("timestamp")
+        if timestamp is not None and block_data.get("index", 0) != 0:
+            nonce_time = timestamp - previous_block_timestamp
             if nonce_time < MAX_CHANGING_INT:
                 range_timestamps += nonce_time
-            previous_block_timestamp = block_data["timestamp"]
-        range_count += 1
-    average_block_mine = float(range_timestamps / range_count)
-    minus_diff = average_block_mine / int(BLOCK_TIME)
+            previous_block_timestamp = timestamp
+    
+    average_block_mine = range_timestamps / range_count if range_count else BLOCK_TIME
+    minus_diff = average_block_mine / BLOCK_TIME
     return int(MIN_MINING_DIFFICULTY + (previous_block_diff * MAX_CHANGING_DIFF) - (MAX_CHANGING_DIFF * minus_diff))
+
 
 
 def update_difficulty(current_block: block.Block, previous_blocks: Dict[str, block.Block]) -> int:
     range_timestamps = 0
-    range_count = 0
     previous_block_timestamp = 0
+    range_count = len(previous_blocks)
     previous_block_diff = checkProofOfWork(current_block.previousHash)
-    for cblock in previous_blocks:
-        block_data = json.loads(chain_helper.toJSON(previous_blocks[cblock]))
-        if block_data["timestamp"] is not None and block_data["index"] != 0:
-            nonce_time = block_data["timestamp"] - previous_block_timestamp
+    
+    for cblock in previous_blocks.values():
+        block_data = json.loads(chain_helper.toJSON(cblock))
+        timestamp = block_data.get("timestamp")
+        if timestamp is not None and block_data.get("index", 0) != 0:
+            nonce_time = timestamp - previous_block_timestamp
             if nonce_time < MAX_CHANGING_INT:
                 range_timestamps += nonce_time
-            previous_block_timestamp = block_data["timestamp"]
-        range_count += 1
+            previous_block_timestamp = timestamp
+    
     if current_block.index % CHANGING_DIFF_TIME == 0:
-        average_block_mine = float(range_timestamps / range_count)
-        minus_diff = average_block_mine / int(BLOCK_TIME)
+        average_block_mine = range_timestamps / range_count if range_count else BLOCK_TIME
+        minus_diff = average_block_mine / BLOCK_TIME
         return int(MIN_MINING_DIFFICULTY + (previous_block_diff * MAX_CHANGING_DIFF) - (MAX_CHANGING_DIFF * minus_diff))
+
 
 
 class Chain:
@@ -380,12 +391,9 @@ class Chain:
         return None
 
     def getTransaction(self, transaction_hash: str):
-        transactions_data = []
-        for transaction_block in self.blocks:
-            transactions_data.append(block.toJSON(self.blocks[transaction_block]))
-        for objects in transactions_data:
-            for data in json.loads(objects)["transactions"]:
-                if str(data["hash"]) == str(transaction_hash):
+        for transaction_block in self.blocks.values():
+            for data in json.loads(transaction_block.toJSON())["transactions"]:
+                if data["hash"] == transaction_hash:
                     return json.dumps(data, indent=2)
 
 

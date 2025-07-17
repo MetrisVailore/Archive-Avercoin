@@ -1,5 +1,11 @@
 import requests, json
-from AverCoin.blockchain import transaction
+import sys, os
+
+# Add the path to the parent directory of 'blockchain'
+sys.path.append(os.path.abspath('../blockchain'))
+sys.path.append(os.path.abspath('../node'))
+
+import transaction
 import time
 
 wallet_commands = ["keys",
