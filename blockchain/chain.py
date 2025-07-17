@@ -95,7 +95,7 @@ class UTXOManager:
 
         if not isCoinbase and inputAmounts > outputAmounts:
             return False, "Input amounts to do not match output amounts"
-        elif inputAmounts < outputAmounts:
+        elif inputAmounts < outputAmounts and not isCoinbase:
             return False, "Avoid smaller amount than output"
 
         return True, ""
